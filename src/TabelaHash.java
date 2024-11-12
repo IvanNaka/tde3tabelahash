@@ -1,23 +1,21 @@
 abstract class TabelaHash {
-    protected int size;
-    protected int capacity;
+    protected int tamanho;
+    protected int capacidade;
 
     public TabelaHash(int capacity) {
-        this.capacity = capacity;
-        this.size = 0;
+        this.capacidade = capacity;
+        this.tamanho = 0;
     }
 
-    abstract void insert(String key);
-    abstract boolean search(String key);
-    abstract int getCollisions();
+    abstract void inserir(String key);
+    abstract int getColisoes();
 
-    // Função hash personalizada
     protected int hash(String key) {
         int hash = 7;
         int hashValue = 0;
         for (int i = 0; i < key.length(); i++) {
             hashValue = hash*31 + key.charAt(i);
         }
-        return hashValue % capacity; // Calcula o índice com base na capacidade da tabela
+        return hashValue % capacidade;
     }
 }

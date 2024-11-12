@@ -6,49 +6,47 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        String filePath = "src/nomes.csv"; // Caminho para o arquivo CSV
-        List<String> names = readNamesFromFile(filePath);
+        String filePath = "src/nomes.csv";
+        List<String> nomes = lerNomesArquivo(filePath);
 
-        int capacity = 5001; // Tamanho da tabela hash
-        TabelaHash linearProbingTable = new SondagemLinear(capacity);
-        TabelaHash chainingTable = new Encadeamento(capacity);
+        int capacidade = 5001; // Tamanho da tabela hash
+        TabelaHash sondagemLinear = new SondagemLinear(capacidade);
+        TabelaHash encadeamento = new Encadeamento(capacidade);
 
-        // Inserção dos nomes nas tabelas hash e medições de tempo
-        long startTime = System.currentTimeMillis();
-        for (String name : names) {
-            linearProbingTable.insert(name);
+        long tempoInicialSL = System.currentTimeMillis();
+        for (String name : nomes) {
+            sondagemLinear.inserir(name);
         }
-        long endTime = System.currentTimeMillis();
-        long SondagemLinearTempo = endTime - startTime;
-//
-        startTime = System.currentTimeMillis();
-        for (String name : names) {
-            chainingTable.insert(name);
+        long tempoFinalSL = System.currentTimeMillis();
+        long SondagemLinearTempo = tempoFinalSL - tempoInicialSL;
+
+        long tempoInicialEncadeamento = System.currentTimeMillis();
+        for (String name : nomes) {
+            encadeamento.inserir(name);
         }
-        endTime = System.currentTimeMillis();
-        long EncadeamentoTempo = endTime - startTime;
+        long tempoFinalEncadeamento = System.currentTimeMillis();
+        long EncadeamentoTempo = tempoFinalEncadeamento - tempoInicialEncadeamento;
 
         System.out.println("Relatório de Comparação de Tabelas Hash:");
-        System.out.println("Tamanho da Tabela: " + capacity);
+        System.out.println("Tamanho da Tabela: " + capacidade);
         System.out.println("\nSondagem Linear:");
         System.out.println("Tempo de Inserção: " + SondagemLinearTempo + " ms");
-        System.out.println("Colisões: " + linearProbingTable.getCollisions());
-
+        System.out.println("Colisões: " + sondagemLinear.getColisoes());
         System.out.println("\nEncadeamento:");
         System.out.println("Tempo de Inserção: " + EncadeamentoTempo + " ms");
-        System.out.println("Colisões: " + chainingTable.getCollisions());
+        System.out.println("Colisões: " + encadeamento.getColisoes());
     }
 
-    private static List<String> readNamesFromFile(String filePath) {
-        List<String> names = new ArrayList<>();
+    private static List<String> lerNomesArquivo(String filePath) {
+        List<String> nomes = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                names.add(line.trim());
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                nomes.add(linha.trim());
             }
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         }
-        return names;
+        return nomes;
     }
 }
