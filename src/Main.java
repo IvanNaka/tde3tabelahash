@@ -9,7 +9,7 @@ public class Main {
         String filePath = "src/nomes.csv";
         List<String> nomes = lerNomesArquivo(filePath);
 
-        int capacidade = 5001; // Tamanho da tabela hash
+        int capacidade = 5001;
         TabelaHash sondagemLinear = new SondagemLinear(capacidade);
         TabelaHash encadeamento = new Encadeamento(capacidade);
 
